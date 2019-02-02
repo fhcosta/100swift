@@ -1,14 +1,14 @@
 /**
  This is a Playground created as part of the 100 Swift challenge - by Hacking with Swift (Paul Hudson)
  @Author: Flavio Costa
- **/
 
+ DAY 1
+
+ */
 import UIKit
 
 
-/*
- DAY 1
-*/
+
 
 
 //Variable: used to store program data. A variable can vary and can store a lot of types of data
