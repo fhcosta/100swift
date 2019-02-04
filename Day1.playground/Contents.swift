@@ -4,12 +4,10 @@
 
  DAY 1
 
+ Variables, simple data types, and string interpolation
+ 
  */
 import UIKit
-
-
-
-
 
 //Variable: used to store program data. A variable can vary and can store a lot of types of data
 //This first variable created store a String
