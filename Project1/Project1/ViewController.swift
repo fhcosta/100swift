@@ -35,6 +35,10 @@ class ViewController: UITableViewController {
             }
             
         }
+
+        pictures = pictures.sorted(by: { (s1: String, s2: String) -> Bool in
+            return s1 < s2
+        })
         
     }
 
@@ -62,7 +66,8 @@ class ViewController: UITableViewController {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
             
             vc.selectedImage = pictures[indexPath.row]
-            
+            vc.selectedImageIndex = indexPath.row + 1
+            vc.totalImages = pictures.count
             navigationController?.pushViewController(vc, animated: true)
             
         }

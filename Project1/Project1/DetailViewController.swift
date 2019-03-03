@@ -12,6 +12,8 @@ class DetailViewController: UIViewController {
 
     @IBOutlet var imageView: UIImageView!
     var selectedImage: String?
+    var selectedImageIndex: Int?
+    var totalImages: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +21,11 @@ class DetailViewController: UIViewController {
         if let imageToLoad = selectedImage {
             imageView.image = UIImage(named: imageToLoad)
         }
+        
+        if let imageIndex = selectedImageIndex, let tImages = totalImages {
+            self.title = "Picture \(imageIndex) of \(tImages)"
+        }
+       
     }
 
 }
