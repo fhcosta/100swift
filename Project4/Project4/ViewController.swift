@@ -14,6 +14,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     //Create the webView property
     var webView: WKWebView!
+    //Create a ProgressView to show the progress of page loading
+    var progressView: UIProgressView!
+    
+    //Create a websites array
+    let webSites = ["apple.com","hackingwithswift.com"]
     
     //Override the loadView Method (View that the controller managed)
     override func loadView() {
@@ -33,7 +38,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         
         //Load the URL
-        let url = URL(string: "https://www.hackingwithswift.com")!
+        let url = URL(string: "https://" + webSites[0])!
         
         //Load the content of the URL using a URLRequest
         webView.load(URLRequest(url: url))
@@ -42,7 +47,37 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.allowsBackForwardNavigationGestures = true
      
         //Right Navigation Bar Button to call the method openTapped when the user taps the button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open Page", style: .plain, target: self, action: #selector(openTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open", style: .plain, target: self, action: #selector(openTapped))
+        
+        
+        //Create two bar buttom items to add in the toolbar
+        
+        //Spacer
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        //Refresh
+        let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        
+        //Set toolbar hidden state to false
+        navigationController?.isToolbarHidden = false
+        
+        //Add the style bar to the progress view
+        progressView = UIProgressView(progressViewStyle: .bar)
+    
+        //Adjust the progressView in the view
+        progressView.sizeToFit()
+        
+        //Add the progressView as a BarButtonItem
+        let progressButton = UIBarButtonItem(customView: progressView)
+        
+        //Add the Bar Button Items to the toolbarItems array
+        toolbarItems = [progressButton, spacer,refresh]
+        
+        //To observe how long is the loading of a WEbView, let's use the KVO (Key Value Observing) tool
+        
+        //Add a observer to the webview.
+        //Keypath is the value to observe
+        //the option new is to get new values for the keypath
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
         
         
@@ -54,10 +89,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
         //Create the alert
         let alert = UIAlertController.init(title: "Open page ...", message: nil, preferredStyle: .actionSheet)
         
-        //Add two actions with a handler method openPage
-        alert.addAction(UIAlertAction(title: "apple.com", style: .default, handler: openPage))
-        alert.addAction(UIAlertAction(title: "hackingwithswift.com", style: .default, handler: openPage))
-        
+        //Add actions with a handler method openPage
+        //Read the website arrays to get the websites
+        for webSite in webSites{
+            alert.addAction(UIAlertAction(title: webSite, style: .default, handler: openPage))
+        }
+      
         //Just cancel the UIAlertController
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
@@ -86,5 +123,32 @@ class ViewController: UIViewController, WKNavigationDelegate {
         title = webView.title
     }
 
+    
+    //Method called when a KVO observed value has changed
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress"{
+            progressView.progress = Float(webView.estimatedProgress)
+        }
+    }
+    
+    
+    //Call decidePolicy decisionHandler to check if the url is being showed. If is the current url hosted, return. If  not, allow to open the url
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        
+        let url = navigationAction.request.url
+        
+        if let host = url?.host{
+            for webSite in webSites{
+                if host.contains(webSite){
+                    decisionHandler(.allow)
+                    return
+                }
+            }
+        }
+        
+        decisionHandler(.cancel)
+        
+    }
+    
 }
 
