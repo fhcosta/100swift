@@ -57,7 +57,7 @@ class ViewController: UIViewController {
         //STEPS TO USE A TECHNIQUE CALLED VISUAL FORMAT LANGUAGE (VFL), A WAY OF DRAWING LAYOUT USING KEYBOARD SYMBOLS
         
         //1 - Create a dictionary with these 5 labels
-        let viewsDictionary = ["label1": label1, "label2": label2, "label3": label3, "label4": label4, "label5": label5]
+        /*let viewsDictionary = ["label1": label1, "label2": label2, "label3": label3, "label4": label4, "label5": label5]
         
         //2.1 - Horizontal Constraints: Add an array of constraints to the main view: view.addConstraints
         //2.2 - Horizontal Constraints: Auto Layout method that converts VFL into an array of constraints: NSLayoutConstraint.constraints(withVisualFormat:)
@@ -84,6 +84,38 @@ class ViewController: UIViewController {
         // [label] -> Tell to the VFL which label will be in this view space
         // - -> Space between the labels (10 points)
         //@999 is the priority of the constraint. Constraint priority is a value between 1 to 1000, where 1000 is "this is absolutely required". 999 is very important but not required and the height of the label will be adjustable. the first label has the labelHeight 88 and priority 999. All the others have the same by referencing label1.
+        */
+        
+        //STEPS TO USE ANCHOR
+        
+        let labels = [label1,label2,label3,label4,label5]
+        
+        //A label to store the current previous label when creating the layout
+        var previousLabel: UILabel!
+        
+        for label in labels{
+            
+            //Set the width anchor as the same width as the main view
+            //label.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+            label.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+            
+            //Set the height anchor as 88
+            let height = view.frame.height/5 - 10
+            label.heightAnchor.constraint(equalToConstant: height).isActive = true
+            
+            //When exists a previous label, set the current label top anchor with 10 points bellow the bottom anchor
+            if let previous = previousLabel{
+                label.topAnchor.constraint(equalTo: previous.bottomAnchor, constant: 10).isActive = true
+            }else{
+                //if there is no previous label, the top anchor of a label will be the safe area top anchor.
+                label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+            }
+            
+            //Set the previous label as the current label
+            previousLabel = label
+            
+        }
     }
 
 
