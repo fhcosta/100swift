@@ -12,7 +12,7 @@ class ViewController: UITableViewController {
 
    // @IBOutlet var tableView: UITableView!
     
-    var pictures = [String]()
+    var pictures = [Picture]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,18 +28,33 @@ class ViewController: UITableViewController {
         //item from the directory path
         let items = try! fileManager.contentsOfDirectory(atPath: path)
         
-        for item in items{
+        let defaults = UserDefaults.standard
+        
+        if let savedPictures = defaults.object(forKey: "pictures") as? Data{
+            let jsonDecoder = JSONDecoder()
             
-            if item.hasPrefix("nssl"){
-               pictures.append(item)
+            do{
+                pictures = try jsonDecoder.decode([Picture].self, from: savedPictures)
+            }catch{
+                print("Error to load pictures")
             }
             
+            pictures = pictures.sorted(by: { (pictureOne: Picture, pictureTwo: Picture) -> Bool in
+                return pictureOne.pictureName < pictureTwo.pictureName
+            })
+            
+        }else{
+            for item in items{
+                if item.hasPrefix("nssl"){
+                    let picture = Picture()
+                    picture.pictureName = item
+                    pictures.append(picture)
+                }
+                
+            }
         }
-
-        pictures = pictures.sorted(by: { (s1: String, s2: String) -> Bool in
-            return s1 < s2
-        })
         
+       
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -54,7 +69,7 @@ class ViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "PicturesTableViewCell", for: indexPath) as! PicturesTableViewCell
         
-        cell.textLabel?.text = pictures[indexPath.row]
+        cell.textLabel?.text = pictures[indexPath.row].pictureName
         
         return cell
         
@@ -64,15 +79,29 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
-            
-            vc.selectedImage = pictures[indexPath.row]
+            let picture = pictures[indexPath.row]
+            picture.numberOfTimesShowed = picture.numberOfTimesShowed + 1
+            vc.selectedImage = picture.pictureName
             vc.selectedImageIndex = indexPath.row + 1
+            save()
             vc.totalImages = pictures.count
+            vc.picture = picture
             navigationController?.pushViewController(vc, animated: true)
             
         }
 
         
+    }
+    
+    /// This method save the People array as UserDefaults encoded as JSON
+    func save(){
+        let jsonEncoder = JSONEncoder()
+        if let savedData = try? jsonEncoder.encode(pictures){
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey:"pictures")
+        }else{
+            print("Failed to save data")
+        }
     }
 
 }

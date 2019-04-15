@@ -24,6 +24,7 @@
 		F2855A07222BB6DD00AD9701 /* nssl0091.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F28559FD222BB6DD00AD9701 /* nssl0091.jpg */; };
 		F2855A09222BBCE100AD9701 /* PicturesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2855A08222BBCE100AD9701 /* PicturesTableViewCell.swift */; };
 		F2855A0B222C53E900AD9701 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2855A0A222C53E900AD9701 /* DetailViewController.swift */; };
+		F2D55DF8226461ED00E4F84D /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D55DF7226461ED00E4F84D /* Picture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		F28559FD222BB6DD00AD9701 /* nssl0091.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0091.jpg; sourceTree = "<group>"; };
 		F2855A08222BBCE100AD9701 /* PicturesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturesTableViewCell.swift; sourceTree = "<group>"; };
 		F2855A0A222C53E900AD9701 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		F2D55DF7226461ED00E4F84D /* Picture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				F28559E3222BB5FA00AD9701 /* ViewController.swift */,
 				F2855A08222BBCE100AD9701 /* PicturesTableViewCell.swift */,
 				F2855A0A222C53E900AD9701 /* DetailViewController.swift */,
+				F2D55DF7226461ED00E4F84D /* Picture.swift */,
 				F28559E5222BB5FA00AD9701 /* Main.storyboard */,
 				F28559E8222BB5FD00AD9701 /* Assets.xcassets */,
 				F28559EA222BB5FD00AD9701 /* LaunchScreen.storyboard */,
@@ -190,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2855A09222BBCE100AD9701 /* PicturesTableViewCell.swift in Sources */,
+				F2D55DF8226461ED00E4F84D /* Picture.swift in Sources */,
 				F28559E4222BB5FA00AD9701 /* ViewController.swift in Sources */,
 				F28559E2222BB5FA00AD9701 /* AppDelegate.swift in Sources */,
 				F2855A0B222C53E900AD9701 /* DetailViewController.swift in Sources */,
@@ -269,7 +273,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -324,7 +328,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
